@@ -1,0 +1,42 @@
+---
+# tasks file for nginx
+- name: Install nginx repo
+  copy:
+    src: '{{ nginx_repo }}'
+    dest: /etc/yum.repos.d/{{ nginx_repo }}
+
+- name: Install Nginx
+  dnf:
+    name: nginx
+    state: latest
+  notify:
+    - reload nginx
+
+- name: Add nginx conf
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: Add nginx status conf
+  copy:
+    src: nginx-status.conf
+    dest: /etc/nginx/conf.d/nginx-status.conf
+
+- name: Add nginx example conf
+  copy:
+    src: nginx_site.example
+    dest: /etc/nginx/conf.d/nginx_site.example
+
+- name: Create data dir if it does not exist
+  file:
+    path: '{{ nginx_data }}'
+    state: directory
+    recurse: yes
+    mode: '0755'
+
+- name: Set owner/group to nginx
+  file:
+    path: '{{ nginx_data }}'
+    state: directory
+    owner: nginx
+    group: nginx

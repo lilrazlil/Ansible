@@ -1,0 +1,39 @@
+---
+# tasks file for server-init
+- name: repo-centos8
+  include: repo-centos8.yml
+  when: repo_centos8
+
+- name: default tasks
+  include: default-tasks.yml
+  when: default_tasks
+
+- name: install default user (add to sudoers + add shh key)
+  include: create-user.yml
+  when: create_user
+
+- name: install nginx
+  include: nginx.yml
+  when: nginx
+
+- name: install firewalld
+  include: firewalld.yml
+  when: firewalld
+
+- name: install postgresql
+  include: postgresql.yml
+  when: postgresql
+
+- name: install nodejs
+  include: nodejs.yml
+  when: nodejs
+
+- name: install pm2
+  include: pm2.yml
+  when: pm2
+
+- name: Autoremove unneeded packages installed as dependencies
+  dnf:
+    autoremove: yes
+  when: default_tasks
+

@@ -1,0 +1,52 @@
+---
+# tasks file for firewalld
+- name: Install firewalld
+  dnf:
+    name: firewalld
+    state: latest
+
+- name: run service firewalld
+  service:
+    name: firewalld
+    state: started
+    enabled: yes  
+ 
+- name: remove service dhcpv6-client
+  firewalld:
+    service: dhcpv6-client
+    state: disabled
+    permanent: yes
+
+- name: remove service cockpit
+  firewalld:
+    service: cockpit
+    state: disabled
+    permanent: yes
+    
+- name: add service http
+  firewalld:
+    service: http
+    permanent: yes
+    zone: public
+    state: enabled
+
+- name: add service https
+  firewalld:
+    service: https
+    permanent: yes
+    zone: public
+    state: enabled
+    
+- name: add port for zabbix-agent
+  firewalld:
+    port: 10050/tcp
+    permanent: yes
+    zone: public
+    state: enabled
+  when: zabbix_port_open
+
+- name: reload firewalld
+  service:
+    name: firewalld
+    state: reloaded    
+    

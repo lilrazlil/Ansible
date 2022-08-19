@@ -1,0 +1,8 @@
+---  
+- name: install zabbix-agent
+  include: zabbix-agentd.yml
+  when: zabbix_agent
+  
+- name: install zabbix-agent2
+  include: zabbix-agent2.yml
+  when: zabbix_agent2

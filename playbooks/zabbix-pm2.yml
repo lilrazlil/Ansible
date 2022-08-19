@@ -1,0 +1,8 @@
+---
+- name: Add support PM2 monitoring for zabbix-agent
+  gather_facts: False
+  hosts: all
+  become: true
+
+  roles:
+    - { role: zabbix-pm2 }

@@ -1,0 +1,42 @@
+---
+  # tasks file for zabbix-pm2
+
+  - name: Install zabbix repo
+    shell: dnf install https://repo.zabbix.com/zabbix/6.0/rhel/8/x86_64/zabbix-sender-6.0.5-1.el8.x86_64.rpm -y
+
+  - name: Install required software
+    dnf:
+      name:
+        - zabbix-sender        
+      state: present
+
+  - name: Copy pm2-zabbix config file
+    copy:
+      src: pm2-zabbix.conf
+      dest: /etc/zabbix/zabbix_agentd.d/pm2-zabbix.conf
+
+  - name: Add zabbix user to sudoers
+    copy:
+      src: pm2-zabbix-sudoers
+      dest: /etc/sudoers.d/pm2-zabbix
+  
+  - name: Register or update pm2-service service
+    copy:
+      src: pm2-zabbix.service
+      dest: /etc/systemd/system/pm2-zabbix.service  
+
+  - name: reload systemd
+    systemd:
+      daemon_reload: yes
+
+  - name: restart pm2-zabbix
+    service:
+      name: pm2-zabbix
+      state: restarted
+      enabled: true      
+
+  - name: restart zabbix_agent
+    service:
+      name: zabbix-agent
+      state: restarted
+      enabled: true      

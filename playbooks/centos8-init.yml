@@ -1,0 +1,8 @@
+---
+- name: Initialization server - install updates and other software
+  gather_facts: False
+  hosts: all
+  become: true
+  
+  roles:
+    - { role: centos8-init }

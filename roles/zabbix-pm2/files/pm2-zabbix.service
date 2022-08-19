@@ -1,0 +1,12 @@
+[Unit]
+Description=PM2 monitor for Zabbix
+After=network.target remote-fs.target pm2-centos.service
+
+[Service]
+Type=simple
+User=centos
+
+ExecStart=/usr/bin/pm2-zabbix --monitor
+
+[Install]
+WantedBy=multi-user.target

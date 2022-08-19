@@ -1,0 +1,18 @@
+---
+# defaults file for server-init
+nginx_repo: nginx.repo
+nginx_data: /var/www
+
+systemd_path: '/etc/systemd/system/'
+
+zabbix_port_open: False
+
+repo_centos8: False
+default_tasks: True
+upgrade: True
+create_user: True
+nginx: True
+firewalld: True
+postgresql: True
+nodejs: True
+pm2: True

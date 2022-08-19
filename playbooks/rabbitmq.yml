@@ -1,0 +1,8 @@
+---
+- name: Install rabbitmq
+  gather_facts: False
+  hosts: all
+  become: true
+
+  roles:
+    - { role: rabbitmq }

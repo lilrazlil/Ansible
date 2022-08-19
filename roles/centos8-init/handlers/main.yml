@@ -1,0 +1,18 @@
+---
+# handlers file for server-init
+- name: reload firewalld
+  service:
+    name: firewalld
+    state: reloaded
+
+- name: reload nginx
+  service:
+    name: nginx
+    state: reloaded
+    enabled: true
+
+- name: restart rabbitmq
+  service: 
+    name: rabbitmq-server
+    state: restarted 
+    enabled: True

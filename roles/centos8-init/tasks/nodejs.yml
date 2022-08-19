@@ -1,0 +1,17 @@
+---
+# tasks file for nodejs
+- name: Install required software
+  dnf:
+    name:
+      - gcc-c++
+      - make
+    state: present
+
+- name: Install NodeJs repositories
+  shell: curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash -
+  register: result
+
+- name: Install Nodejs
+  dnf:
+    name: nodejs
+    state: present

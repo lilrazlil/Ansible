@@ -1,0 +1,18 @@
+# tasks file for create-user
+- name: add group "centos"
+  group:
+    name: centos
+    state: present
+
+- name: add the user 'centos' with primary group of 'centos'
+  user:
+    name: centos    
+    group: centos
+
+- name: add user to sudoers
+  copy:
+    src: default-user
+    dest: /etc/sudoers.d/default-user
+    owner: root
+    group: root
+    mode: '0600'

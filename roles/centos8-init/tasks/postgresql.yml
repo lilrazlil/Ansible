@@ -1,0 +1,33 @@
+---
+# tasks file for postgresql
+- name: enable postgresql:12 app stream
+  shell: dnf module enable -y postgresql:12
+
+- name: install required software
+  dnf:
+    name:
+      - gcc-c++
+      - make
+      - postgresql-server
+      - postgresql-devel
+      - postgresql-contrib
+      - redhat-rpm-config
+      - python3-psycopg2
+    state: present
+
+- name: initdb
+  shell: postgresql-setup --initdb
+
+- name: copy postgresql params
+  copy:
+    src: postgresql.auto.conf
+    dest: /var/lib/pgsql/data/postgresql.auto.conf
+    owner: postgres
+    group: postgres
+    mode: '0600'
+
+- name: start postgresql
+  service:
+    name: postgresql
+    state: started
+    enabled: true     

@@ -1,0 +1,14 @@
+- name: Disable SELinux
+  ansible.posix.selinux:
+    state: disabled
+
+- name: install required packages
+  dnf:
+    name:       
+      - epel-release 
+      - git
+      - mc
+      - net-tools
+      - rsync
+      - htop
+    state: latest

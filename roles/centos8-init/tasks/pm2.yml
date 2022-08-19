@@ -1,0 +1,8 @@
+---
+# tasks file for PM2
+- name: Install PM2 process manager
+  shell: npm i -g pm2
+
+- name: Start at boot
+  shell: sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u centos --hp /home/centos
+  become: true

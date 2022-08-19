@@ -1,0 +1,11 @@
+---
+- name: add ssh pub key to .ssh/authorized_key
+  hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: centos
+        state: present
+        key: "{{ lookup('file', '../ssh-keys/.pub') }}"

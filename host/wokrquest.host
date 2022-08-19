@@ -1,0 +1,37 @@
+[all:vars]
+ansible_user=root
+
+[workquest_mainnet_all:children]
+workquest_mainnet_balancer
+workquest_mainnet_explorer
+workquest_mainnet_gate
+workquest_mainnet_service
+workquest_mainnet_indexer
+workquest_mainnet_validator
+workquest_mainnet_archive_node
+
+[workquest_mainnet_balancer]
+workquest-nginx-balancer ansible_host=
+
+[workquest_mainnet_explorer]
+workquest-explorer-01 ansible_host= 
+workquest-explorer-02 ansible_host=
+
+[workquest_mainnet_gate]
+workquest-gate-01 ansible_host=
+workquest-gate-02 ansible_host= 
+
+[workquest_mainnet_service]
+workquest-service ansible_host=
+
+[workquest_mainnet_indexer]
+workquest-indexer ansible_host= 
+
+[workquest_mainnet_validator]
+workquest-val-01 ansible_host=
+workquest-val-02 ansible_host= 
+workquest-val-03 ansible_host= 
+
+[workquest_mainnet_archive_node]
+workquest-archive-node-01 ansible_host= 
+workquest-archive-node-02 ansible_host= 

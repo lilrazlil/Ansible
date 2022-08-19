@@ -1,0 +1,68 @@
+---
+# tasks file for rabbitmq setup
+
+- name: repo rabbitmq
+  copy:
+    src: /home/mns/Desktop/Ansible/roles/rabbitmq/files/rabbitmq.repo
+    dest: /etc/yum.repos.d/
+    owner: root
+    group: root
+    mode: '0644'
+
+
+- name: install rabbitmq
+  dnf:
+    name:
+      - erlang
+      - rabbitmq-server
+    state: latest
+
+#- name: nginx conf for rabbitmq
+#  template:
+#    src: ./rabbitmq.conf.j2
+#    dest: /etc/nginx/conf.d/rabbitmq.conf
+
+
+- name: run service rabbitmq-server
+  service:
+    name: rabbitmq-server
+    state: started
+    enabled: yes
+
+- name: enable rabbitmq plugins
+  rabbitmq_plugin:
+    names: rabbitmq_management
+    state: enabled
+  notify:
+    - restart rabbitmq
+
+- name: Delete repo rabbitmq
+  file:
+    path: /etc/yum.repos.d/rabbitmq.repo
+    state: absent
+
+- rabbitmq_vhost:
+    name: '{{ rabbitmq_user }}'
+    state: present
+
+- name: add rabbitmq users
+  rabbitmq_user:
+    user: '{{ rabbitmq_user }}'
+    password: '{{ rabbitmq_password }}'
+    vhost: '{{ rabbitmq_user }}'
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
+
+- name: add rabbitmq users
+  rabbitmq_user:
+    user: web-{{ rabbitmq_user }}
+    password: '{{ rabbitmq_password }}'
+    tags: administrator
+    state: present
+  
+- name: remove default guest user
+  rabbitmq_user: 
+     user: guest
+     state: absent
